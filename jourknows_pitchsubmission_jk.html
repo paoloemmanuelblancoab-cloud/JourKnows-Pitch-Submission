@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#EEF3FB">
+<title>Submit a Pitch | JourKnows PH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#000E4B;--blue:#00198D;--gold:#FFC629;--sky:#8FB0FF;--pale:#EEF3FB;--red:#E5383B;color-scheme:only light}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:Montserrat,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;background-color:var(--pale);background-image:linear-gradient(rgba(0,14,75,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,14,75,.06) 1px,transparent 1px);background-size:28px 28px;padding:max(20px,env(safe-area-inset-top,0px)) 20px calc(40px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:1040px;margin:0 auto;display:grid;gap:24px}
+.card{position:relative;background:#fff;border:3px solid var(--ink);border-radius:22px;box-shadow:7px 7px 0 var(--sh,var(--gold));padding:24px;opacity:0;transform:translateY(18px);animation:in .6s cubic-bezier(.2,.9,.3,1.2) forwards;animation-delay:calc(var(--d,0) * 90ms)}
+@keyframes in{to{opacity:1;transform:none}}
+.dark{background:var(--ink);color:#fff}
+.lab{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin:0 0 12px;opacity:.65}
+.dark .lab{color:var(--gold);opacity:1}
+.head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 22px}
+.logo{display:flex;align-items:center;gap:12px;font-weight:900;font-size:22px;letter-spacing:-.01em}
+.logo b{width:44px;height:44px;border-radius:12px;background:var(--ink);color:var(--gold);display:grid;place-items:center;font-size:18px;box-shadow:3px 3px 0 var(--gold)}
+.logo em{font-style:normal;color:var(--blue)}
+.pill{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--gold);border:3px solid var(--ink);border-radius:999px;padding:9px 16px;box-shadow:3px 3px 0 var(--ink);white-space:nowrap}
+.hero{--sh:var(--gold);display:flex;align-items:center;justify-content:space-between;gap:20px;padding:30px 34px;overflow:hidden}
+.hero h1{margin:0 0 10px;font-size:clamp(34px,6vw,60px);line-height:1;font-weight:900;letter-spacing:-.03em}
+.hero h1 mark{background:var(--gold);color:var(--ink);padding:0 .15em;border-radius:10px;display:inline-block;transform:rotate(-2deg)}
+.hero p{margin:0;font-size:clamp(15px,2vw,18px);font-weight:600;line-height:1.5;max-width:30em;opacity:.9}
+#mk{width:clamp(110px,18vw,170px);flex:none;animation:fl 3.2s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-8px) rotate(2deg)}}
+#mk .m2{display:none}#mk.happy .m1{display:none}#mk.happy .m2{display:block}#mk.happy{animation:hop .5s ease 3}
+@keyframes hop{50%{transform:translateY(-22px) scale(1.06)}}
+.grid{display:grid;gap:24px;grid-template-columns:1fr}
+@media(min-width:900px){.grid{grid-template-columns:minmax(0,1fr) 300px;align-items:start}}
+.side{display:grid;gap:24px}
+.top{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.av{width:56px;height:56px;border-radius:50%;background:var(--ink);color:#fff;border:3px solid var(--ink);display:grid;place-items:center;font-weight:900;font-size:18px;flex:none;box-shadow:3px 3px 0 var(--gold)}
+.top h2{margin:0;font-size:clamp(19px,2.6vw,24px);font-weight:800;letter-spacing:-.02em}
+.row{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:600px){.row.two{grid-template-columns:1fr 1fr}}
+.fld{margin-bottom:18px}
+.fld>label,.fld>span.l{display:block;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.fld small{font-weight:600;letter-spacing:0;text-transform:none;opacity:.6}
+.in{width:100%;font:600 16px/1.4 inherit;font-family:inherit;color:var(--ink);background:#F7F9FF;border:3px solid var(--ink);border-radius:14px;padding:13px 15px;outline:0;transition:box-shadow .15s,transform .15s,background .15s}
+.in::placeholder{color:rgba(0,14,75,.42);font-weight:500}
+.in:focus{background:#fff;box-shadow:4px 4px 0 var(--gold);transform:translate(-2px,-2px)}
+textarea.in{min-height:160px;resize:vertical}
+.bad .in{border-color:var(--red);box-shadow:4px 4px 0 rgba(229,56,59,.35)}
+.er{color:var(--red);font-size:13px;font-weight:700;margin-top:7px;min-height:0}
+.er:empty{display:none}
+.cnt{display:flex;justify-content:space-between;font-size:13px;font-weight:700;opacity:.65;margin-top:8px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips label{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:15px;border:3px solid var(--ink);border-radius:999px;padding:9px 16px;background:#fff;cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:transform .12s,box-shadow .12s,background .12s}
+.chips label:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.chips input:checked+label{background:var(--gold);transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.chips input:focus-visible+label{outline:3px solid var(--blue);outline-offset:3px}
+.bad .chips label{border-color:var(--red)}
+.consent{display:flex;gap:12px;align-items:flex-start;cursor:pointer;font-weight:600;font-size:15px;line-height:1.4;position:relative}
+.consent input{position:absolute;opacity:0;width:28px;height:28px;margin:0}
+.consent i{flex:none;width:28px;height:28px;border:3px solid var(--ink);border-radius:9px;background:#fff;display:grid;place-items:center;box-shadow:3px 3px 0 var(--ink);transition:background .15s}
+.consent input:checked+i{background:var(--gold)}
+.consent input:checked+i::after{content:"";width:6px;height:12px;border:solid var(--ink);border-width:0 3px 3px 0;transform:translateY(-1px) rotate(45deg)}
+.consent input:focus-visible+i{outline:3px solid var(--blue);outline-offset:3px}
+.bad.consent i{border-color:var(--red)}
+.send{display:block;width:100%;margin-top:22px;font:900 19px/1 inherit;font-family:inherit;letter-spacing:.01em;color:var(--ink);background:var(--gold);border:3px solid var(--ink);border-radius:16px;padding:18px;cursor:pointer;box-shadow:5px 5px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.send:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.send:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--ink)}
+.send:disabled{opacity:.65;cursor:wait}
+.send:focus-visible{outline:3px solid var(--blue);outline-offset:4px}
+.hint{font-size:13px;font-weight:600;opacity:.6;margin:12px 0 0;text-align:center}
+.formerr{color:var(--red);font-weight:700;text-align:center;margin-top:10px}
+.tip p{margin:0;font-size:16px;font-weight:600;line-height:1.5}
+.ck{display:flex;align-items:center;gap:11px;font-weight:700;font-size:15px;padding:6px 0;transition:opacity .2s}
+.ck i{flex:none;width:24px;height:24px;border:3px solid var(--ink);border-radius:50%;background:#fff;display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:900;transition:background .2s,transform .3s cubic-bezier(.3,1.8,.5,1)}
+.ck.ok i{background:var(--gold);transform:scale(1.15)}
+.ck.ok i::after{content:"\2713"}
+.ck.ok{opacity:.55}
+.trk{height:18px;border:3px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;margin:14px 0 6px}
+#bar{height:100%;width:0;background:var(--gold);border-right:3px solid var(--ink);transition:width .5s cubic-bezier(.2,.9,.3,1.2)}
+#bar[style*="width: 0"]{border-right:0}
+#done5{font-size:13px;font-weight:800;opacity:.7}
+.steps{margin:0;padding:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;display:flex;gap:12px;align-items:center;font-weight:700;font-size:15px;padding:7px 0}
+.steps li::before{content:counter(s);flex:none;width:28px;height:28px;border-radius:9px;background:var(--ink);color:var(--gold);display:grid;place-items:center;font-weight:900;font-size:14px}
+.hp{position:absolute;left:-9999px}
+.modal{position:fixed;inset:0;z-index:30;background:rgba(0,14,75,.6);display:none;place-items:center;padding:20px}
+.modal.show{display:grid}
+.pop{--sh:var(--gold);width:min(440px,100%);text-align:center;animation:pop .55s cubic-bezier(.2,1.4,.4,1) both;opacity:1;transform:none;padding:34px 26px}
+@keyframes pop{from{transform:scale(.6) translateY(40px);opacity:0}}
+.stamp{display:inline-block;font-weight:900;font-size:clamp(46px,14vw,68px);letter-spacing:-.03em;background:var(--gold);border:4px solid var(--ink);border-radius:18px;padding:.05em .3em;box-shadow:6px 6px 0 var(--ink);transform:rotate(-6deg);animation:st .6s .3s cubic-bezier(.3,1.2,.5,1) both}
+@keyframes st{0%{transform:scale(2.6) rotate(-16deg);opacity:0}100%{transform:rotate(-6deg)}}
+.pop p{font-weight:600;line-height:1.5;margin:24px 0 6px}
+.pop .ref{display:inline-block;font-weight:800;background:var(--pale);border:3px solid var(--ink);border-radius:10px;padding:6px 12px;margin-bottom:6px}
+.pop .send{margin-top:16px}
+@media(max-width:560px){.hero{padding:24px}.head .pill{display:none}.card{padding:20px}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important;transition:none!important}}
+
+/* JK member login + authenticated pitch session */
+.auth{--sh:var(--gold);padding:26px 30px}
+.authgrid{display:grid;grid-template-columns:1fr auto;gap:22px;align-items:end}
+.auth h2{margin:0 0 8px;font-size:clamp(24px,4vw,36px);font-weight:900;letter-spacing:-.03em}
+.auth p{margin:0;line-height:1.5;font-weight:600;opacity:.78}
+.codewrap{display:flex;gap:10px;align-items:stretch}
+.codewrap .in{min-width:220px;text-transform:uppercase;letter-spacing:.12em;font-weight:900}
+.codebtn{font:900 16px/1 inherit;font-family:inherit;background:var(--gold);color:var(--ink);border:3px solid var(--ink);border-radius:14px;padding:0 20px;cursor:pointer;box-shadow:4px 4px 0 var(--ink)}
+.codebtn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.codebtn:disabled{opacity:.6;cursor:wait}
+.authmsg{margin-top:12px;font-size:13px;font-weight:800;color:var(--red);min-height:0}
+.authok{display:none;align-items:center;justify-content:space-between;gap:16px;background:var(--pale);border:3px solid var(--ink);border-radius:16px;padding:13px 15px;margin-top:18px}
+.authok.show{display:flex}
+.authperson{font-weight:800}
+.authperson small{display:block;opacity:.62;margin-top:3px;font-weight:700}
+.logout{border:0;background:transparent;text-decoration:underline;font:800 13px inherit;color:var(--ink);cursor:pointer}
+#pitchArea{display:none}
+#pitchArea.ready{display:block}
+.memberbadge{display:inline-flex;align-items:center;gap:8px;background:var(--gold);border:3px solid var(--ink);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:900}
+.countbox{display:inline-flex;align-items:center;gap:7px;margin-left:8px;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:900}
+@media(max-width:700px){
+  .authgrid{grid-template-columns:1fr}
+  .codewrap{flex-direction:column}
+  .codewrap .in{min-width:0}
+  .codebtn{padding:14px}
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="card head" style="--d:0;--sh:var(--sky)">
+    <div class="logo"><b>JK</b><span>JOURKNOWS <em>PH</em></span></div>
+    <div class="pill">Journalism for All</div>
+  </header>
+
+
+  <section class="card auth" id="auth" style="--d:1">
+    <div class="authgrid">
+      <div>
+        <div class="lab">Member access</div>
+        <h2>Enter your JK Code.</h2>
+        <p>Your JK Code is your JourKnows login for submitting and tracking pitches.</p>
+      </div>
+      <div>
+        <div class="codewrap">
+          <input class="in" id="jkCode" maxlength="9" placeholder="JK-XXXXXX" autocomplete="one-time-code" aria-label="JK Code">
+          <button class="codebtn" id="loginBtn" type="button">Continue &#10148;</button>
+        </div>
+        <div class="authmsg" id="authMsg" role="alert"></div>
+      </div>
+    </div>
+    <div class="authok" id="authok">
+      <div class="authperson">
+        <span id="memberName"></span>
+        <small><span id="memberDesk"></span> &bull; <span id="memberStatus"></span></small>
+      </div>
+      <div>
+        <span class="memberbadge">JK MEMBER</span>
+        <span class="countbox">Pitches: <span id="pitchCount">0</span></span>
+        <button class="logout" id="logoutBtn" type="button">Log out</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card dark hero" style="--d:1">
+    <div>
+      <div class="lab">Pitch desk</div>
+      <h1>Got a story? <mark>Pitch it!</mark></h1>
+      <p>Send your idea straight to the JourKnows editors. No pitch is too small, and every single one gets read.</p>
+    </div>
+    <svg id="mk" viewBox="0 0 160 150" aria-hidden="true">
+      <path d="M20 14h120a12 12 0 0 1 12 12v72a12 12 0 0 1-12 12H74l-28 26v-26H20A12 12 0 0 1 8 98V26a12 12 0 0 1 12-12z" fill="#FFC629" stroke="#000E4B" stroke-width="5" stroke-linejoin="round"/>
+      <circle cx="58" cy="56" r="15" fill="#fff" stroke="#000E4B" stroke-width="4"/><circle cx="102" cy="56" r="15" fill="#fff" stroke="#000E4B" stroke-width="4"/>
+      <g id="pup"><circle cx="58" cy="56" r="7" fill="#000E4B"/><circle cx="102" cy="56" r="7" fill="#000E4B"/></g>
+      <ellipse cx="38" cy="82" rx="8" ry="5" fill="#FF8FA3" opacity=".75"/><ellipse cx="122" cy="82" rx="8" ry="5" fill="#FF8FA3" opacity=".75"/>
+      <path class="m1" d="M64 82q16 14 32 0" fill="none" stroke="#000E4B" stroke-width="5" stroke-linecap="round"/>
+      <path class="m2" d="M62 80q18 26 36 0z" fill="#000E4B" stroke="#000E4B" stroke-width="4" stroke-linejoin="round"/>
+    </svg>
+  </section>
+
+  <div class="grid" id="pitchArea">
+    <form class="card" id="f" novalidate style="--d:2;--sh:var(--sky)">
+      <div class="top"><div class="av" id="av">?</div><h2 id="hi">What's the story?</h2></div>
+
+      <div class="fld">
+        <label>Submitting as</label>
+        <div class="in" id="identityDisplay" style="background:#EEF3FB;font-weight:800;">Not authenticated</div>
+        <input type="hidden" id="name"><input type="hidden" id="email">
+      </div>
+
+      <div class="fld" data-f="type"><span class="l">What kind of story?</span>
+        <div class="chips" id="chips"></div><div class="er"></div></div>
+
+      <div class="fld" data-f="title"><label for="title">Working headline</label><input class="in" id="title" placeholder="What would the headline say?"><div class="er"></div></div>
+
+      <div class="fld" data-f="summary"><label for="summary">The story</label>
+        <textarea class="in" id="summary" maxlength="1500" placeholder="What happened or what will you show? Who is affected? Why now? Who are your sources?"></textarea>
+        <div class="cnt"><span id="left">1500 left</span><span>80+ characters to send</span></div><div class="er"></div></div>
+
+      <div class="row two">
+        <div class="fld"><label for="link">Link <small>(optional)</small></label><input class="in" id="link" type="url" inputmode="url" placeholder="Draft or reference"></div>
+        <div class="fld"><label for="date">Target date <small>(optional)</small></label><input class="in" id="date" type="date"></div>
+      </div>
+
+      <div class="fld" data-f="consent"><label class="consent" id="cw"><input type="checkbox" id="consent"><i></i><span>This is my original work, and JourKnows PH may contact me about it.</span></label><div class="er"></div></div>
+
+      <input class="hp" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="send" id="go" type="submit">Send pitch &#10148;</button>
+      <div class="formerr" id="fe" role="alert"></div>
+      <p class="hint">Press Ctrl+Enter to send quickly</p>
+    </form>
+
+    <aside class="side">
+      <div class="card dark tip" style="--d:3;--sh:var(--gold)"><div class="lab">Pitch tip</div><p>Lead with the news: who, what, and why it matters now. Editors decide fast.</p></div>
+      <div class="card" style="--d:4;--sh:var(--gold)"><div class="lab">Your checklist</div>
+        <div class="ck" id="c_ne"><i></i>JK Code verified</div><div class="ck" id="c_ty"><i></i>Story type</div><div class="ck" id="c_ti"><i></i>Headline</div><div class="ck" id="c_st"><i></i>The story</div><div class="ck" id="c_co"><i></i>Consent</div>
+        <div class="trk"><div id="bar" style="width:0%"></div></div><div id="done5">0 of 5 done</div></div>
+      <div class="card" style="--d:5;--sh:var(--sky)"><div class="lab">What happens next</div>
+        <ol class="steps"><li>Editors read your pitch</li><li>You get a reply by email</li><li>Good ideas get assigned</li></ol></div>
+    </aside>
+  </div>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="card pop">
+  <div class="stamp" id="mt">SENT!</div>
+  <p>Our editors have your pitch and will reply by email.</p>
+  <div class="ref" id="ref"></div>
+  <button class="send" id="again" type="button">Pitch another story</button>
+</div></div>
+
+<script>
+/*
+  JourKnows Pitch Desk
+  Google Apps Script contract:
+    GET  ?action=lookup&code=JK-XXXXXX&callback=...
+    POST JSON {action:"submitPitch", code, ref, type, title, summary, link, date, website}
+*/
+var ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+var $=function(i){return document.getElementById(i)},f=$("f");
+var TYPES=[
+  ["News","&#128240; News"],["Sports","&#9917; Sports"],["Opinion","&#128483;&#65039; Opinion"],
+  ["Feature","&#9997;&#65039; Feature"],["Sci-Tech","&#128300; Sci-Tech"],["Literary","&#128221; Literary"],
+  ["Cartoon","&#127912; Cartoon"],["Broadcast","&#127897;&#65039; Broadcast"]
+];
+TYPES.forEach(function(t,i){
+  $("chips").insertAdjacentHTML("beforeend",'<input type="radio" name="type" id="t'+i+'" value="'+t[0]+'"><label for="t'+i+'">'+t[1]+'</label>');
+});
+var session=null;
+
+function type(){var c=f.querySelector('input[name="type"]:checked');return c?c.value:""}
+function setAuthMessage(msg,ok){
+  $("authMsg").textContent=msg||"";
+  $("authMsg").style.color=ok?"var(--blue)":"var(--red)";
+}
+function normalizeCode(v){
+  v=(v||"").trim().toUpperCase().replace(/\s+/g,"");
+  if(v&&v.indexOf("JK-")!==0&&/^[A-Z0-9]{6}$/.test(v))v="JK-"+v;
+  return v;
+}
+function cleanupJSONP(callback,script){
+  try{delete window[callback]}catch(e){window[callback]=undefined}
+  if(script&&script.parentNode)script.parentNode.removeChild(script);
+}
+function login(){
+  var code=normalizeCode($("jkCode").value);$("jkCode").value=code;
+  if(!/^JK-[A-Z0-9]{6}$/.test(code)){setAuthMessage("Enter a valid JK Code in the format JK-XXXXXX.");return}
+  if(ENDPOINT.indexOf("PASTE_")===0){setAuthMessage("Connect the Google Apps Script Web App URL first.");return}
+  $("loginBtn").disabled=true;$("loginBtn").textContent="Checking...";setAuthMessage("");
+  var callback="jkLookup_"+Date.now(),script;
+  window[callback]=function(result){
+    if(result&&result.ok&&result.member){
+      session=result.member;session.code=code;
+      sessionStorage.setItem("jkPitchSession",JSON.stringify(session));
+      renderSession();setAuthMessage("Verified.",true);
+    }else{
+      session=null;sessionStorage.removeItem("jkPitchSession");
+      $("pitchArea").classList.remove("ready");$("authok").classList.remove("show");
+      setAuthMessage((result&&result.message)||"That JK Code could not be verified.");
+    }
+    cleanupJSONP(callback,script);$("loginBtn").disabled=false;$("loginBtn").textContent="Continue &#10148;";
+  };
+  script=document.createElement("script");
+  script.src=ENDPOINT+"?action=lookup&code="+encodeURIComponent(code)+"&callback="+callback+"&_="+Date.now();
+  script.onerror=function(){
+    cleanupJSONP(callback,script);$("loginBtn").disabled=false;$("loginBtn").textContent="Continue &#10148;";
+    setAuthMessage("The JourKnows registry could not be reached. Please try again.");
+  };
+  document.body.appendChild(script);
+}
+function renderSession(){
+  if(!session)return;
+  $("memberName").textContent=session.name||"JourKnows Member";
+  $("memberDesk").textContent=session.desk||"Member";
+  $("memberStatus").textContent=session.status||"Active";
+  $("pitchCount").textContent=Number(session.pitchCount||0);
+  $("identityDisplay").textContent=(session.name||"Member")+" ("+(session.desk||"Member")+")";
+  $("authok").classList.add("show");$("pitchArea").classList.add("ready");
+  $("name").value=session.name||"";$("email").value=session.email||"";upd();
+}
+function logout(){
+  session=null;sessionStorage.removeItem("jkPitchSession");
+  $("pitchArea").classList.remove("ready");$("authok").classList.remove("show");
+  $("identityDisplay").textContent="Not authenticated";$("name").value="";$("email").value="";
+  f.reset();clear();upd();$("jkCode").focus();
+}
+function restoreSession(){
+  try{
+    var saved=JSON.parse(sessionStorage.getItem("jkPitchSession")||"null");
+    if(saved&&saved.code&&saved.name){session=saved;$("jkCode").value=saved.code;renderSession();}
+  }catch(e){}
+}
+function upd(){
+  var nm=session?(session.name||""):$("name").value.trim();
+  var words=nm.split(/\s+/).filter(Boolean);
+  $("av").textContent=words.length?(words[0][0]+(words[1]?words[1][0]:"")).toUpperCase():"?";
+  $("hi").textContent=words.length?"What's the story, "+words[0]+"?":"What's the story?";
+  $("left").textContent=(1500-$("summary").value.length)+" left";
+  var s={ne:!!session,ty:!!type(),ti:$("title").value.trim().length>=5,st:$("summary").value.trim().length>=80,co:$("consent").checked},n=0;
+  for(var k in s){$("c_"+k).classList.toggle("ok",s[k]);if(s[k])n++}
+  $("bar").style.width=n*20+"%";$("done5").textContent=n+" of 5 done";
+}
+function clear(){
+  document.querySelectorAll(".bad").forEach(function(e){e.classList.remove("bad")});
+  document.querySelectorAll(".er").forEach(function(e){e.textContent=""});$("fe").textContent="";
+}
+f.addEventListener("input",function(){clear();upd()});f.addEventListener("change",function(){clear();upd()});
+function flag(k,m){
+  var w=f.querySelector('[data-f="'+k+'"]');
+  if(w){w.classList.add("bad");w.querySelector(".er").textContent=m}
+  return w;
+}
+function validate(){
+  var b=[];
+  if(!session)b.push(flag("name","Verify your JK Code first."));
+  if(!type())b.push(flag("type","Pick a story type."));
+  if($("title").value.trim().length<5)b.push(flag("title","Add a few more words."));
+  if($("summary").value.trim().length<80)b.push(flag("summary","Write at least 80 characters so editors can judge it."));
+  if(!$("consent").checked)b.push(flag("consent","Tick the box to confirm."));
+  return b;
+}
+function ref(){
+  var d=new Date();
+  return "JK-"+String(d.getFullYear()).slice(2)+("0"+(d.getMonth()+1)).slice(-2)+("0"+d.getDate()).slice(-2)+"-"+Math.random().toString(36).slice(2,8).toUpperCase();
+}
+function submit(e){
+  if(e)e.preventDefault();clear();var b=validate();
+  if(b.length){b[0].scrollIntoView({behavior:"smooth",block:"center"});$("fe").textContent="Almost there! Fix the highlighted parts.";return}
+  var id=ref(),go=$("go"),link=$("link").value.trim();
+  if(link&&!/^https?:\/\//i.test(link))link="https://"+link;
+  var data={action:"submitPitch",ref:id,code:session.code,type:type(),title:$("title").value.trim(),summary:$("summary").value.trim(),link:link,date:$("date").value,website:$("website").value};
+  go.disabled=true;go.textContent="Sending...";
+  if(ENDPOINT.indexOf("PASTE_")===0){$("fe").textContent="Connect the Google Apps Script Web App URL first.";go.disabled=false;go.innerHTML="Send pitch &#10148;";return}
+  fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)})
+    .then(function(){
+      session.pitchCount=Number(session.pitchCount||0)+1;
+      sessionStorage.setItem("jkPitchSession",JSON.stringify(session));
+      $("pitchCount").textContent=session.pitchCount;$("ref").textContent="Reference "+id;
+      $("modal").classList.add("show");$("mk").classList.add("happy");$("again").focus();
+    }).catch(function(){$("fe").textContent="Could not send. Check your connection and try again."})
+    .then(function(){go.disabled=false;go.innerHTML="Send pitch &#10148;"});
+}
+f.addEventListener("submit",submit);
+f.addEventListener("keydown",function(e){if(e.key==="Enter"&&(e.ctrlKey||e.metaKey))submit(e)});
+function closeM(){
+  $("modal").classList.remove("show");$("mk").classList.remove("happy");f.reset();
+  $("name").value=session?session.name:"";$("email").value=session?session.email:"";clear();upd();
+  scrollTo({top:0,behavior:"smooth"});
+}
+$("again").addEventListener("click",closeM);$("loginBtn").addEventListener("click",login);$("logoutBtn").addEventListener("click",logout);
+$("jkCode").addEventListener("keydown",function(e){if(e.key==="Enter")login()});
+addEventListener("keydown",function(e){if(e.key==="Escape"&&$("modal").classList.contains("show"))closeM()});
+restoreSession();upd();
+
+/* mascot eyes follow the pointer */
+addEventListener("pointermove",function(e){
+  var r=$("mk").getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),d=Math.hypot(dx,dy)||1,m=Math.min(5,d/40);
+  $("pup").style.transform="translate("+dx/d*m+"px,"+dy/d*m+"px)";
+});
+upd();
+</script>
+</body>
+</html>
