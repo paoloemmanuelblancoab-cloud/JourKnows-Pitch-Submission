@@ -116,6 +116,11 @@ textarea.in{min-height:160px;resize:vertical}
 #pitchArea.ready{display:block}
 .memberbadge{display:inline-flex;align-items:center;gap:8px;background:var(--gold);border:3px solid var(--ink);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:900}
 .countbox{display:inline-flex;align-items:center;gap:7px;margin-left:8px;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:900}
+.authlink{display:inline-block;margin-top:12px;border:0;background:transparent;padding:0;text-decoration:underline;font:800 13px inherit;font-family:inherit;color:var(--ink);cursor:pointer}
+#regMode{display:none}
+.auth.reg #loginMode{display:none}
+.auth.reg #regMode{display:grid}
+.authnote{margin-top:10px;font-size:12px;font-weight:700;opacity:.65;line-height:1.4}
 @media(max-width:700px){
   .authgrid{grid-template-columns:1fr}
   .codewrap{flex-direction:column}
@@ -134,7 +139,7 @@ textarea.in{min-height:160px;resize:vertical}
 
 
   <section class="card auth" id="auth" style="--d:1">
-    <div class="authgrid">
+    <div class="authgrid" id="loginMode">
       <div>
         <div class="lab">Member access</div>
         <h2>Enter your JK Code.</h2>
@@ -146,6 +151,23 @@ textarea.in{min-height:160px;resize:vertical}
           <button class="codebtn" id="loginBtn" type="button">Continue &#10148;</button>
         </div>
         <div class="authmsg" id="authMsg" role="alert"></div>
+        <button class="authlink" id="toReg" type="button">Don't have a JK Code yet? Register or resend it &rarr;</button>
+      </div>
+    </div>
+    <div class="authgrid" id="regMode">
+      <div>
+        <div class="lab">Register</div>
+        <h2>Get your JK Code.</h2>
+        <p>Enter your registered JourKnows email. We'll email your JK Code &mdash; or resend it if you forgot.</p>
+      </div>
+      <div>
+        <div class="codewrap">
+          <input class="in" id="regEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" aria-label="JourKnows email" style="text-transform:none;letter-spacing:0">
+          <button class="codebtn" id="regBtn" type="button">Email my code &#10148;</button>
+        </div>
+        <div class="authmsg" id="regMsg" role="alert"></div>
+        <button class="authlink" id="toLogin" type="button">&larr; I already have a JK Code</button>
+        <div class="authnote">Only approved JourKnows members can register. Not on the list? Contact the editorial board.</div>
       </div>
     </div>
     <div class="authok" id="authok">
@@ -232,6 +254,7 @@ textarea.in{min-height:160px;resize:vertical}
   JourKnows Pitch Desk
   Google Apps Script contract:
     GET  ?action=lookup&code=JK-XXXXXX&callback=...
+    GET  ?action=register&email=you@email.com&callback=...
     POST JSON {action:"submitPitch", code, ref, type, title, summary, link, date, website}
 */
 var ENDPOINT = "https://script.google.com/macros/s/AKfycbwlHXx0Npj68H6KnORwaEwAvFPEnH1ewGPJVynW-t_5GScUBfbNy88WTGSOrrLiR6GD/exec";
@@ -369,6 +392,42 @@ function closeM(){
 $("again").addEventListener("click",closeM);$("loginBtn").addEventListener("click",login);$("logoutBtn").addEventListener("click",logout);
 $("jkCode").addEventListener("keydown",function(e){if(e.key==="Enter")login()});
 addEventListener("keydown",function(e){if(e.key==="Escape"&&$("modal").classList.contains("show"))closeM()});
+/* ---- Register / resend JK Code ---- */
+function showMode(reg){
+  $("auth").classList.toggle("reg",!!reg);
+  setAuthMessage("");setRegMessage("");
+  (reg?$("regEmail"):$("jkCode")).focus();
+}
+function setRegMessage(msg,ok){
+  $("regMsg").textContent=msg||"";
+  $("regMsg").style.color=ok?"var(--blue)":"var(--red)";
+}
+function registerEmail(){
+  var email=$("regEmail").value.trim().toLowerCase();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){setRegMessage("Enter a valid email address.");return}
+  if(ENDPOINT.indexOf("PASTE_")===0){setRegMessage("Connect the Google Apps Script Web App URL first.");return}
+  var btn=$("regBtn");btn.disabled=true;btn.textContent="Sending...";setRegMessage("");
+  var callback="jkRegister_"+Date.now(),script;
+  function done(){cleanupJSONP(callback,script);btn.disabled=false;btn.innerHTML="Email my code &#10148;"}
+  window[callback]=function(result){
+    if(result&&result.ok){
+      showMode(false);
+      setAuthMessage("Check your inbox for your JK Code (and spam folder), then enter it here.",true);
+    }else{
+      setRegMessage((result&&result.message)||"We couldn't register that email.");
+    }
+    done();
+  };
+  script=document.createElement("script");
+  script.src=ENDPOINT+"?action=register&email="+encodeURIComponent(email)+"&callback="+callback+"&_="+Date.now();
+  script.onerror=function(){done();setRegMessage("The JourKnows registry could not be reached. Please try again.")};
+  document.body.appendChild(script);
+}
+$("toReg").addEventListener("click",function(){showMode(true)});
+$("toLogin").addEventListener("click",function(){showMode(false)});
+$("regBtn").addEventListener("click",registerEmail);
+$("regEmail").addEventListener("keydown",function(e){if(e.key==="Enter")registerEmail()});
+
 restoreSession();upd();
 
 /* mascot eyes follow the pointer */
