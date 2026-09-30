@@ -128,6 +128,57 @@ textarea.in{min-height:160px;resize:vertical}
   .codebtn{padding:14px}
 }
 
+
+#boardArea{display:none}#boardArea.ready{display:block}
+.bcomp{border:3px dashed var(--ink);border-radius:16px;padding:14px 16px;margin-bottom:18px;background:var(--pale)}
+.bcomp summary{cursor:pointer;font-weight:900;font-size:15px}
+.bcomp[open] summary{margin-bottom:14px}
+.post{border:3px solid var(--ink);border-radius:16px;padding:14px 16px;margin-top:14px;background:#fff;box-shadow:4px 4px 0 var(--sky)}
+.post.task{box-shadow:4px 4px 0 var(--gold)}
+.pmeta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12px;font-weight:800;opacity:.85}
+.tag{border:2px solid var(--ink);border-radius:999px;padding:3px 10px;background:var(--gold);letter-spacing:.06em;text-transform:uppercase;font-size:11px}
+.tag.a{background:var(--sky)}.tag.s{background:#fff}
+.post h3{margin:10px 0 6px;font-size:18px;font-weight:900}
+.post p{margin:0;white-space:pre-wrap;font-weight:600;line-height:1.5;font-size:15px}
+.pfoot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px;font-size:13px;font-weight:800}
+.pbtn{font:900 13px inherit;font-family:inherit;border:3px solid var(--ink);border-radius:12px;padding:8px 14px;background:var(--gold);color:var(--ink);cursor:pointer;box-shadow:3px 3px 0 var(--ink)}
+.pbtn.g{background:#fff}.pbtn:disabled{opacity:.6;cursor:wait}
+.bmsg{font-weight:800;font-size:14px;margin:10px 0 0;min-height:1em}
+.bempty{font-weight:700;opacity:.65;margin:8px 0 0}
+select.in{appearance:auto}
+.pager{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:20px;font-weight:800;font-size:14px}
+.pager:empty{display:none}
+
+.wrap{max-width:1180px}
+.shell{display:grid;gap:24px;grid-template-columns:minmax(0,1fr)}
+.snav{display:none}
+.shell.ready .snav{display:flex;gap:10px;overflow-x:auto;padding:4px 4px 12px}
+.views{min-width:0}
+.view{display:none;gap:24px}.view.on{display:grid}
+.nv{display:flex;align-items:center;gap:10px;text-align:left;font:800 14px inherit;font-family:inherit;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:14px;padding:12px 14px;cursor:pointer;box-shadow:3px 3px 0 var(--ink);white-space:nowrap;transition:transform .1s,box-shadow .1s}
+.nv:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.nv.on{background:var(--gold);transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.nv:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.nv[hidden],.nsep[hidden]{display:none}
+.nb{margin-left:auto;background:var(--ink);color:#fff;border-radius:999px;font-size:11px;padding:2px 8px}
+.nb:empty{display:none}
+.nsep{display:none;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin:10px 4px 0}
+@media(min-width:900px){
+  .shell.ready{grid-template-columns:240px minmax(0,1fr);align-items:start}
+  .shell.ready .snav{flex-direction:column;position:sticky;top:16px;overflow:visible;padding:0 6px 6px 0}
+  .shell.ready .nsep:not([hidden]){display:block}
+}
+
+#v-editor .fld>label.consent{display:flex;text-transform:none;letter-spacing:0;font-size:15px;margin:0}
+
+.nv{font-weight:900;font-size:17px;line-height:1.25;padding:16px 18px;gap:12px;border-radius:16px;letter-spacing:-.005em;white-space:normal}
+.nv>span:first-child{font-size:22px;line-height:1}
+.nb{font-size:13px;padding:3px 10px}
+.nsep{font-size:12px;font-weight:900;opacity:.75}
+@media(max-width:899px){.nv{font-size:16px;padding:13px 16px;white-space:nowrap}}
+
+@media(min-width:900px){.shell.ready{grid-template-columns:270px minmax(0,1fr)}.nv{padding:15px 15px;gap:10px;font-size:17px}}
+.nb{flex:none}
 </style>
 </head>
 <body>
@@ -183,6 +234,15 @@ textarea.in{min-height:160px;resize:vertical}
     </div>
   </section>
 
+  <div class="shell" id="shell">
+    <nav class="snav" id="snav" aria-label="Pitch desk sections">
+      <button class="nv on" id="nv-pitch" data-view="pitch" type="button"><span>&#128221;</span> Pitch desk</button>
+      <button class="nv" id="nv-board" data-view="board" type="button"><span>&#128204;</span> Announcements &amp; tasks <span class="nb" id="nb-board"></span></button>
+      <div class="nsep" id="nsep" hidden>Editors only</div>
+      <button class="nv" id="nv-editor" data-view="editor" type="button" hidden><span>&#128736;</span> Editors' board</button>
+    </nav>
+    <main class="views">
+      <div class="view on" id="v-pitch">
   <section class="card dark hero" style="--d:1">
     <div>
       <div class="lab">Pitch desk</div>
@@ -198,7 +258,6 @@ textarea.in{min-height:160px;resize:vertical}
       <path class="m2" d="M62 80q18 26 36 0z" fill="#000E4B" stroke="#000E4B" stroke-width="4" stroke-linejoin="round"/>
     </svg>
   </section>
-
   <div class="grid" id="pitchArea">
     <form class="card" id="f" novalidate style="--d:2;--sh:var(--sky)">
       <div class="top"><div class="av" id="av">?</div><h2 id="hi">What's the story?</h2></div>
@@ -239,6 +298,46 @@ textarea.in{min-height:160px;resize:vertical}
       <div class="card" style="--d:5;--sh:var(--sky)"><div class="lab">What happens next</div>
         <ol class="steps"><li>Editors read your pitch</li><li>You get a reply by email</li><li>Good ideas get assigned</li></ol></div>
     </aside>
+  </div>
+      </div>
+
+      <div class="view" id="v-board">
+        <section class="card" style="--d:1;--sh:var(--gold)">
+          <div class="top"><div class="av">&#128204;</div><h2>Announcements &amp; tasks</h2></div>
+          <p class="bempty" style="margin:0">Messages from the editors, and tasks you can take. Grab a task and the editor is notified.</p>
+          <div class="bmsg" id="mMsg" role="status"></div>
+          <div id="posts"></div>
+          <div class="pager" id="pager"></div>
+        </section>
+      </div>
+
+      <div class="view" id="v-editor">
+        <section class="card" style="--d:1;--sh:var(--gold)">
+          <div class="top"><div class="av">&#128736;</div><h2>Editors' board</h2></div>
+          <p class="bempty" id="bRoleNote" style="margin:0 0 14px"></p>
+          <div class="bcomp">
+            <div class="fld"><span class="l">Type</span>
+              <div class="chips"><input type="radio" name="bkind" id="bk0" value="Announcement" checked><label for="bk0">&#128227; Announcement</label><input type="radio" name="bkind" id="bk1" value="Task"><label for="bk1">&#9997;&#65039; Task (up for grabs)</label></div></div>
+            <div class="fld"><label for="bTitle">Title</label><input class="in" id="bTitle" maxlength="150" placeholder="Short and clear"></div>
+            <div class="fld"><label for="bBody">Details</label><textarea class="in" id="bBody" maxlength="1500" style="min-height:110px" placeholder="What should members know or do?"></textarea></div>
+            <div class="fld" id="bSlotsW" style="display:none"><label for="bSlots">How many members can take it? <small>(0 = no limit)</small></label><input class="in" id="bSlots" type="number" min="0" max="50" value="1" inputmode="numeric"></div>
+            <div class="row two">
+              <div class="fld"><label for="bDesk">For</label><select class="in" id="bDesk"></select></div>
+              <div class="fld"><label for="bDue">Deadline <small>(optional)</small></label><input class="in" id="bDue" type="date"></div>
+            </div>
+            <div class="fld"><label class="consent"><input type="checkbox" id="bNotify"><i></i><span>Also email the members</span></label></div>
+            <button class="send" id="bPost" type="button" style="margin-top:8px">Post to board &#10148;</button>
+            <div class="bmsg" id="ePostMsg" role="status"></div>
+          </div>
+        </section>
+        <section class="card" style="--d:2;--sh:var(--sky)">
+          <div class="lab">Manage posts</div>
+          <div class="bmsg" id="eListMsg" role="status"></div>
+          <div id="eposts"></div>
+          <div class="pager" id="epager"></div>
+        </section>
+      </div>
+    </main>
   </div>
 </div>
 
@@ -297,7 +396,7 @@ function login(){
       renderSession();setAuthMessage("Verified.",true);
     }else{
       session=null;sessionStorage.removeItem("jkPitchSession");
-      $("pitchArea").classList.remove("ready");$("authok").classList.remove("show");
+      boardStop();$("pitchArea").classList.remove("ready");$("authok").classList.remove("show");
       setAuthMessage((result&&result.message)||"That JK Code could not be verified.");
     }
     cleanupJSONP(callback,script);$("loginBtn").disabled=false;$("loginBtn").textContent="Continue &#10148;";
@@ -318,13 +417,13 @@ function renderSession(){
   $("pitchCount").textContent=Number(session.pitchCount||0);
   $("identityDisplay").textContent=(session.name||"Member")+" ("+(session.desk||"Member")+")";
   $("authok").classList.add("show");$("pitchArea").classList.add("ready");
-  $("name").value=session.name||"";$("email").value=session.email||"";upd();
+  $("name").value=session.name||"";$("email").value=session.email||"";upd();boardStart();
 }
 function logout(){
   session=null;sessionStorage.removeItem("jkPitchSession");
   $("pitchArea").classList.remove("ready");$("authok").classList.remove("show");
   $("identityDisplay").textContent="Not authenticated";$("name").value="";$("email").value="";
-  f.reset();clear();upd();$("jkCode").focus();
+  boardStop();f.reset();clear();upd();$("jkCode").focus();
 }
 function restoreSession(){
   try{
@@ -427,6 +526,137 @@ $("toReg").addEventListener("click",function(){showMode(true)});
 $("toLogin").addEventListener("click",function(){showMode(false)});
 $("regBtn").addEventListener("click",registerEmail);
 $("regEmail").addEventListener("keydown",function(e){if(e.key==="Enter")registerEmail()});
+
+
+/* ===== Sidebar + announcements/tasks + editors' board ===== */
+var boardPosts=[],memPage=1,edPage=1,PER_PAGE=5,boardIsEditor=false,curView="pitch",wantView=(location.hash||"").slice(1);
+function esc(x){return String(x==null?"":x).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function jsonp(qs,done,fail){
+  var cb="jkB_"+Date.now()+"_"+Math.floor(Math.random()*1e4),s=document.createElement("script");
+  window[cb]=function(r){cleanupJSONP(cb,s);done(r)};
+  s.onerror=function(){cleanupJSONP(cb,s);if(fail)fail()};
+  s.src=ENDPOINT+"?"+qs+"&callback="+cb+"&_="+Date.now();document.body.appendChild(s);
+}
+function bMsg(t,ok,id){
+  var els=id?[$(id)]:document.querySelectorAll(".bmsg");
+  Array.prototype.forEach.call(els,function(el){el.textContent=t||"";el.style.color=ok?"var(--blue)":"var(--red)"});
+}
+function showView(v){
+  if(!session)v="pitch";
+  if(v==="editor"&&!boardIsEditor)v=(v==="editor"&&curView==="pitch")?"pitch":"board";
+  ["pitch","board","editor"].forEach(function(n){
+    $("v-"+n).classList.toggle("on",n===v);$("nv-"+n).classList.toggle("on",n===v);
+    if(n===v)$("nv-"+n).setAttribute("aria-current","page");else $("nv-"+n).removeAttribute("aria-current");
+  });
+  curView=v;try{history.replaceState(null,"","#"+v)}catch(e){}
+}
+function boardStart(){
+  var was=$("shell").classList.contains("ready");
+  $("shell").classList.add("ready");if(!was)showView("pitch");boardLoad();
+}
+function boardStop(){
+  $("shell").classList.remove("ready");boardIsEditor=false;boardPosts=[];memPage=1;edPage=1;
+  $("posts").innerHTML="";$("eposts").innerHTML="";$("pager").innerHTML="";$("epager").innerHTML="";
+  $("nv-editor").hidden=true;$("nsep").hidden=true;$("nb-board").textContent="";bMsg("");showView("pitch");
+}
+function boardLoad(){
+  if(!session)return;
+  jsonp("action=board&code="+encodeURIComponent(session.code),function(r){
+    if(!r||!r.ok){bMsg((r&&r.message)||"Could not load the board.");return}
+    boardIsEditor=!!r.editor;
+    $("nv-editor").hidden=!boardIsEditor;$("nsep").hidden=!boardIsEditor;
+    if(boardIsEditor){
+      $("bDesk").innerHTML=(r.desks||[]).map(function(d){return"<option>"+esc(d)+"</option>"}).join("");
+      $("bRoleNote").textContent=r.role==="exec"?"Executive board: you can post to any desk.":"Section editor: you can post to your own desk only ("+((r.desks||[])[0]||"")+").";
+    }
+    boardPosts=r.posts||[];
+    var n=boardPosts.filter(function(p){return p.kind==="Task"&&p.status==="Open"&&!p.mine}).length;
+    $("nb-board").textContent=n||"";
+    renderMember();renderEditor();
+    if(wantView){if(wantView==="board"||(wantView==="editor"&&boardIsEditor))showView(wantView);wantView=""}
+    else if(curView==="editor"&&!boardIsEditor)showView("board");
+  },function(){bMsg("The board could not be reached. Please try again.")});
+}
+function pageOf(total,page){var pages=Math.max(1,Math.ceil(total/PER_PAGE));return Math.min(Math.max(page,1),pages)}
+function renderPager(el,total,page){
+  var pages=Math.ceil(total/PER_PAGE);
+  el.innerHTML=pages>1?'<button class="pbtn g" data-page="-1"'+(page===1?" disabled":"")+'>&larr; Newer</button><span>Page '+page+' of '+pages+'</span><button class="pbtn g" data-page="1"'+(page===pages?" disabled":"")+'>Older &rarr;</button>':"";
+}
+function renderMember(){
+  var list=boardPosts.filter(function(p){return p.status!=="Closed"});
+  memPage=pageOf(list.length,memPage);
+  renderPosts(list.slice((memPage-1)*PER_PAGE,memPage*PER_PAGE),$("posts"),"member");
+  renderPager($("pager"),list.length,memPage);
+}
+function renderEditor(){
+  var list=boardPosts.filter(function(p){return p.manage});
+  edPage=pageOf(list.length,edPage);
+  renderPosts(list.slice((edPage-1)*PER_PAGE,edPage*PER_PAGE),$("eposts"),"editor");
+  renderPager($("epager"),list.length,edPage);
+}
+function renderPosts(list,el,mode){
+  if(!list.length){el.innerHTML='<p class="bempty">'+(mode==="editor"?"No posts to manage yet.":"Nothing here yet. Check back soon.")+'</p>';return}
+  el.innerHTML=list.map(function(p){
+    var task=p.kind==="Task",b="",id=esc(p.id);
+    if(mode==="member"){
+      if(task&&p.status==="Open"&&!p.mine)b+='<button class="pbtn" data-act="claim" data-id="'+id+'">Grab this task</button>';
+      if(task&&p.mine&&(p.status==="Open"||p.status==="Full"))b+='<button class="pbtn g" data-act="Open" data-id="'+id+'">Give up my slot</button>';
+    }else{
+      if(task&&(p.status==="Open"||p.status==="Full"))b+='<button class="pbtn g" data-act="Done" data-id="'+id+'">Mark done</button>';
+      if(p.status!=="Closed")b+='<button class="pbtn g" data-act="Closed" data-id="'+id+'">Close</button>';
+      if(p.status==="Closed"||p.status==="Done")b+='<button class="pbtn g" data-act="Open" data-id="'+id+'">Reopen</button>';
+    }
+    var slots=task?'<span>'+p.taken+(p.slots?" of "+p.slots:"")+' taken'+(p.mine?" (you're in)":"")+'</span>':"";
+    var names=task&&p.claimedBy&&p.claimedBy.length?'<span>'+p.claimedBy.map(esc).join(", ")+'</span>':"";
+    return'<article class="post'+(task?" task":"")+'"><div class="pmeta"><span class="tag'+(task?"":" a")+'">'+(task?"Task":"Announcement")+'</span>'+
+      (task||mode==="editor"?'<span class="tag s">'+esc(p.status)+'</span>':"")+'<span>'+esc(p.desk)+' &bull; '+esc(p.by)+' &bull; '+esc(p.posted)+'</span></div>'+
+      '<h3>'+esc(p.title)+'</h3><p>'+esc(p.body)+'</p><div class="pfoot">'+
+      (p.due?'<span>Deadline: '+esc(p.due)+'</span>':"")+slots+names+b+'</div></article>';
+  }).join("");
+}
+function boardClick(msgId){
+  return function(e){
+    var t=e.target;if(!t.getAttribute||!t.getAttribute("data-act")||!session)return;
+    var act=t.getAttribute("data-act"),id=t.getAttribute("data-id");t.disabled=true;bMsg("");
+    var qs=act==="claim"?"action=claim":"action=boardStatus&status="+encodeURIComponent(act);
+    jsonp(qs+"&code="+encodeURIComponent(session.code)+"&id="+encodeURIComponent(id),function(r){
+      bMsg(r&&r.ok?(act==="claim"?"You're in. The editor has been notified.":"Updated."):((r&&r.message)||"Something went wrong."),r&&r.ok,msgId);
+      boardLoad();
+    },function(){t.disabled=false;bMsg("Could not reach the board. Please try again.",false,msgId)});
+  };
+}
+$("posts").addEventListener("click",boardClick("mMsg"));
+$("eposts").addEventListener("click",boardClick("eListMsg"));
+function pagerClick(which){
+  return function(e){
+    var d=e.target.getAttribute&&e.target.getAttribute("data-page");if(!d)return;
+    if(which==="m"){memPage+=Number(d);renderMember()}else{edPage+=Number(d);renderEditor()}
+    $(which==="m"?"posts":"eposts").scrollIntoView({behavior:"smooth",block:"start"});
+  };
+}
+$("pager").addEventListener("click",pagerClick("m"));
+$("epager").addEventListener("click",pagerClick("e"));
+$("snav").addEventListener("click",function(e){
+  var b=e.target.closest?e.target.closest("[data-view]"):null;if(!b)return;
+  showView(b.getAttribute("data-view"));window.scrollTo({top:0,behavior:"smooth"});
+});
+Array.prototype.forEach.call(document.getElementsByName("bkind"),function(r){r.addEventListener("change",function(){$("bSlotsW").style.display=document.querySelector('input[name="bkind"]:checked').value==="Task"?"block":"none"})});
+$("bPost").addEventListener("click",function(){
+  if(!session)return;
+  var kind=document.querySelector('input[name="bkind"]:checked').value,title=$("bTitle").value.trim(),body=$("bBody").value.trim();
+  if(title.length<4||body.length<5){bMsg("Add a title and some details first.",false,"ePostMsg");return}
+  var btn=$("bPost");btn.disabled=true;btn.innerHTML="Posting...";bMsg("");
+  var data={action:"postBoard",code:session.code,ref:"BD-"+new Date().toISOString().slice(2,10).replace(/-/g,"")+"-"+Math.random().toString(36).slice(2,8).toUpperCase(),
+    kind:kind,slots:kind==="Task"?Math.max(0,Math.min(50,parseInt($("bSlots").value,10)||0)):0,title:title,body:body,desk:$("bDesk").value,due:$("bDue").value,notify:$("bNotify").checked};
+  fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)})
+    .then(function(){
+      $("bTitle").value="";$("bBody").value="";$("bDue").value="";$("bNotify").checked=false;$("bSlots").value=1;
+      edPage=1;bMsg("Posted. Refreshing the board...",true,"ePostMsg");
+      setTimeout(function(){boardLoad();bMsg("Posted.",true,"ePostMsg")},2000);
+    })
+    .catch(function(){bMsg("Could not post. Please try again.",false,"ePostMsg")})
+    .then(function(){btn.disabled=false;btn.innerHTML="Post to board &#10148;"});
+});
 
 restoreSession();upd();
 
